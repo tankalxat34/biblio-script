@@ -1,4 +1,4 @@
-# biblio-script
+# Biblio Script
 
 [![download](https://img.shields.io/badge/-СКАЧАТЬ-success?style=for-the-badge)](https://github.com/tankalxat34/biblio-script/raw/main/BiblioScript.exe)
 
