@@ -17,10 +17,12 @@ import time, os, requests, re
 from bs4 import BeautifulSoup
 
 HEADERS = {"user-agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.2"}
+COMMENT_SYMBOL = ";"
+COUNTER = 1
 
 print(__doc__)
 
-TEMPLATE = "{title} — Текст : электронный // {domen} : [сайт]. — URL: {url} (дата обращения: {date})."
+TEMPLATE = "{title} — Текст: электронный // {domen}: [сайт]. — URL: {url} (дата обращения: {date})."
 _date = time.strftime("%d.%m.20%y")
 
 file_with_links = input("Введите имя файла, где находятся ссылки, или нажмите Return, чтобы использовать `%s` \n\tОбратите внимание, что каждая ссылка должна быть написана на каждой строке подряд: " % ("links.txt"))
@@ -28,7 +30,7 @@ if file_with_links == "":
     file_with_links = "links.txt"
 
 try:
-    input_strings = open(file_with_links, "r", encoding="utf-8").readlines()
+    input_strings = open(file_with_links.replace('"', ""), "r", encoding="utf-8").readlines()
 except Exception:
     print("Такого файла нет. Попробуйте еще раз")
     quit()
@@ -45,6 +47,10 @@ f = open("result.txt", "a", encoding="utf-8")
 
 for link in input_strings:
     local_link = link.strip()
+
+    if local_link == COMMENT_SYMBOL:
+        continue
+    print(COUNTER, "Формирование источника для:\t\t", local_link)
 
     req = requests.get(local_link, headers=HEADERS)
     soup = BeautifulSoup(req.content, "lxml")
@@ -64,7 +70,8 @@ for link in input_strings:
                             domen=_domen,
                             url=_url,
                             date=_date)).strip())
-    f.write("\n\n")
+    f.write("\n"*1)
+    COUNTER += 1
 
 f.close()
 
