@@ -19,6 +19,8 @@ from bs4 import BeautifulSoup
 HEADERS = {"user-agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.2"}
 COMMENT_SYMBOL = ";"
 COUNTER = 1
+ABC = "0123456789абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz"
+BIBLIOLINKS_LIST = []
 
 print(__doc__)
 
@@ -64,12 +66,21 @@ for link in input_strings:
         _author2 = ' '
     _domen = local_link.split("/")[2].replace("www.", "", 1)
     _url = local_link
-    f.write((TEMPLATE.format(author=_author,
+
+    BIBLIOLINKS_LIST.append((TEMPLATE.format(author=_author,
                              author2=_author2,
                             title=_title,
                             domen=_domen,
                             url=_url,
                             date=_date)).strip())
+
+    COUNTER += 1
+
+COUNTER = 0
+BIBLIOLINKS_LIST.sort()
+for e in BIBLIOLINKS_LIST:
+    print(COUNTER, "Запись в файл источника:", e)
+    f.write(e)
     f.write("\n"*1)
     COUNTER += 1
 
