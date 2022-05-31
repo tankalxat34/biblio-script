@@ -58,7 +58,7 @@ for link in input_strings:
     try:
         _title = re.findall('<title>(.+?)</title>', req.text)[0] +'.'
     except Exception:
-     _title='.'
+        _title='.'
     try:
         _author = re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]
         _author2 = "/ "+re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]+"."
