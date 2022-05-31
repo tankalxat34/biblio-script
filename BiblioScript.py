@@ -14,7 +14,7 @@ Version: 0.1.0
 -----------------------------------------------------------------------------------------------------------------------
 """
 import time, os, requests, re
-from bs4 import BeautifulSoup
+
 
 HEADERS = {"user-agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.2"}
 COMMENT_SYMBOL = ";"
@@ -39,7 +39,6 @@ except Exception:
 
 print("Обработка ссылок началась. Результат откроется сразу после окончания работы. Пожалуйста, подождите...")
 
-
 try:
     os.remove("result.txt")
 except Exception:
@@ -55,9 +54,11 @@ for link in input_strings:
     print(COUNTER, "Формирование источника для:\t\t", local_link)
 
     req = requests.get(local_link, headers=HEADERS)
-    soup = BeautifulSoup(req.content, "lxml")
-
-    _title = str(soup.title.text)+"."
+    
+    try:
+        _title = re.findall('<title>(.+?)</title>', req.text)[0] +'.'
+    except Exception:
+     _title='.'
     try:
         _author = re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]
         _author2 = "/ "+re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]+"."
@@ -87,10 +88,3 @@ for e in BIBLIOLINKS_LIST:
 f.close()
 
 os.system("explorer.exe "+os.getcwd()+"\\result.txt")
-
-
-
-
-
-
-
