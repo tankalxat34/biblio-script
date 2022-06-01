@@ -10,11 +10,11 @@
     date        - сегодняшняя дата в формате ДД.ММ.ГГГГ
 
 (c) tankalxat34 - 2022
-Version: 0.1.0
+Version: 0.1.1
 -----------------------------------------------------------------------------------------------------------------------
 """
 import time, os, requests, re
-
+os.system("cls")
 
 HEADERS = {"user-agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.2"}
 COMMENT_SYMBOL = ";"
@@ -51,36 +51,41 @@ for link in input_strings:
 
     if local_link == COMMENT_SYMBOL:
         continue
-    print(COUNTER, "Формирование источника для:\t\t", local_link)
+    print(COUNTER, "Формирование источника для:\t\t", local_link, end=" ... ")
 
-    req = requests.get(local_link, headers=HEADERS)
     
     try:
-        _title = re.findall('<title>(.+?)</title>', req.text)[0] +'.'
-    except Exception:
-        _title='.'
-    try:
-        _author = re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]
-        _author2 = "/ "+re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]+"."
-    except Exception:
-        _author = ' '
-        _author2 = ' '
-    _domen = local_link.split("/")[2].replace("www.", "", 1)
-    _url = local_link
+        req = requests.get(local_link, headers=HEADERS)
+        try:
+            _title = re.findall('<title>(.+?)</title>', req.text)[0] +'.'
+        except Exception:
+            _title='.'
+        try:
+            _author = re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]
+            _author2 = "/ "+re.findall("[аА]втор[:ы].[аА-яЯ]{0,}.[аА-яЯ]{0,}..[аА-яЯ]{0,}.", req.text)[0]+"."
+        except Exception:
+            _author = ' '
+            _author2 = ' '
+        _domen = local_link.split("/")[2].replace("www.", "", 1)
+        _url = local_link
 
-    BIBLIOLINKS_LIST.append((TEMPLATE.format(author=_author,
-                             author2=_author2,
-                            title=_title,
-                            domen=_domen,
-                            url=_url,
-                            date=_date)).strip())
-
+        BIBLIOLINKS_LIST.append((TEMPLATE.format(author=_author,
+                                 author2=_author2,
+                                title=_title,
+                                domen=_domen,
+                                url=_url,
+                                date=_date)).strip())
+        print("\033[92mУспешно!\033[0m\n")
+    except Exception:
+        print("\033[91mВозникла ошибка при формировании источника...\033[0m")
     COUNTER += 1
+
+print("\n\n")
 
 COUNTER = 0
 BIBLIOLINKS_LIST.sort()
 for e in BIBLIOLINKS_LIST:
-    print(COUNTER, "Запись в файл источника:", e)
+    print(COUNTER + 1, "Запись в файл источника:", e)
     f.write(e)
     f.write("\n"*1)
     COUNTER += 1
