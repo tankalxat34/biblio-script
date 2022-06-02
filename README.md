@@ -1,16 +1,14 @@
 # Biblio Script
 
-[![download](https://img.shields.io/badge/-СКАЧАТЬ-success?style=for-the-badge)](https://github.com/tankalxat34/biblio-script/raw/main/BiblioScript.exe)
+<!-- [![download](https://img.shields.io/badge/-СКАЧАТЬ-success?style=for-the-badge)](https://github.com/tankalxat34/biblio-script/raw/main/BiblioScript.exe) -->
 
 Этот скрипт создает строку с правильным библиографическим содержанием для ссылок на интернет-ресурсы согласно национальному стандарту РФ **ГОСТ Р 7.0.100-2018 «Библиографическая запись. Библиографическое описание. Общие требования и правила составления».**
 
 # Требования
 - Python 3.6+
-- - requests
-- - re
-- - bs4
-- - BeautifulSoup
-- - lxml
+  - requests
+  - re
+  - bs4
 
 # Как использовать?
 1. Запустите скрипт или `*.exe` файл.
