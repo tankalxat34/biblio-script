@@ -6,6 +6,7 @@ Version: 0.1.2
 -----------------------------------------------------------------------------------------------------------------------
 """
 import time, os, requests, re
+from urllib.parse import unquote
 os.system("cls")
 
 HEADERS = {"user-agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.2"}
@@ -39,7 +40,7 @@ except Exception:
 f = open("result.txt", "a", encoding="utf-8")
 
 for link in input_strings:
-    local_link = link.strip()
+    local_link = unquote(link.strip())
 
     if local_link == COMMENT_SYMBOL:
         continue
