@@ -5,7 +5,7 @@
 Version: 0.1.2
 -----------------------------------------------------------------------------------------------------------------------
 """
-import time, os, requests, re
+import time, os, requests, re, sys
 from urllib.parse import unquote
 os.system("cls")
 
@@ -17,8 +17,17 @@ BIBLIOLINKS_LIST = []
 
 print(__doc__)
 
-TEMPLATE = "{title} — Текст: электронный // {domen}: [сайт]. — URL: {url} (дата обращения: {date})."
-_date = time.strftime("%d.%m.20%y")
+
+if "--lang=ru" in sys.argv:
+    print("ВКЛЮЧЕН РУССКИЙ РЕЖИМ")
+    _date = time.strftime("%d.%m.20%y")
+    TEMPLATE = "{title} — Текст: электронный // {domen}: [сайт]. — URL: {url} (дата обращения: {date})."
+elif "--lang=en" in sys.argv:
+    print("ВКЛЮЧЕН АНГЛИЙСКИЙ РЕЖИМ")
+    _date = time.strftime("%d %B %Y")
+    TEMPLATE = "{title}. Available at: {url} (accessed {date})."
+else:
+    sys.exit(1)
 
 file_with_links = input("Введите имя файла, где находятся ссылки, или нажмите Return, чтобы использовать `%s` \n\tОбратите внимание, что каждая ссылка должна быть написана на каждой строке подряд: " % ("links.txt"))
 if file_with_links == "":
@@ -67,7 +76,7 @@ for link in input_strings:
                                 title=_title,
                                 domen=_domen,
                                 url=_url,
-                                date=_date)).strip())
+                                date=_date)).strip().replace("..", "."))
         print("\033[92mУспешно!\033[0m\n")
     except Exception:
         print("\033[91mВозникла ошибка при формировании источника...\033[0m")
