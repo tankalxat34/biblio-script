@@ -18,16 +18,15 @@ BIBLIOLINKS_LIST = []
 print(__doc__)
 
 
-if "--lang=ru" in sys.argv:
-    print("ВКЛЮЧЕН РУССКИЙ РЕЖИМ")
-    _date = time.strftime("%d.%m.20%y")
-    TEMPLATE = "{title} — Текст: электронный // {domen}: [сайт]. — URL: {url} (дата обращения: {date})."
-elif "--lang=en" in sys.argv:
+if "--lang=en" in sys.argv:
     print("ВКЛЮЧЕН АНГЛИЙСКИЙ РЕЖИМ")
     _date = time.strftime("%d %B %Y")
     TEMPLATE = "{title}. Available at: {url} (accessed {date})."
 else:
-    sys.exit(1)
+    print("ВКЛЮЧЕН РУССКИЙ РЕЖИМ")
+    _date = time.strftime("%d.%m.20%y")
+    TEMPLATE = "{title} — Текст: электронный // {domen}: [сайт]. — URL: {url} (дата обращения: {date})."
+
 
 file_with_links = input("Введите имя файла, где находятся ссылки, или нажмите Return, чтобы использовать `%s` \n\tОбратите внимание, что каждая ссылка должна быть написана на каждой строке подряд: " % ("links.txt"))
 if file_with_links == "":
